@@ -29,5 +29,5 @@ function setMood(mood) {
     }
   }
   
-  setMood('Normal'); // Set the initial mood here
+  setMood('Bad'); // Set the initial mood here
   

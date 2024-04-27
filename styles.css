@@ -6,7 +6,7 @@
   }
   
   body {
-    background-color: #111;
+    background-color: #42efb4; /* Updated from #111 to #42efb4 */
     display: flex;
     justify-content: center;
     align-items: center;
