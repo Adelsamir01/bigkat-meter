@@ -5,82 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bigkat's Mood Meter</title>
     <style>
-        /* Additional styles for slider */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 1s ease;
+        }
+        .slider-container {
+            position: relative;
+            width: 300px;
+        }
         .slider {
             -webkit-appearance: none;
             width: 100%;
-            height: 25px;
-            background: white;
+            height: 10px;
+            background: #eaeaea;
             outline: none;
-            opacity: 0.7;
-            -webkit-transition: .2s;
-            transition: opacity .2s;
+            border-radius: 5px;
+            transition: background .2s;
         }
-        .slider:hover {
-            opacity: 1;
-        }
+        /* Slider thumb styles for different moods */
+        .slider-terrible::-webkit-slider-thumb { background: url('img/terrible.png') no-repeat center center / cover; }
+        .slider-bad::-webkit-slider-thumb { background: url('img/bad.png') no-repeat center center / cover; }
+        .slider-normal::-webkit-slider-thumb { background: url('img/normal.png') no-repeat center center / cover; }
+        .slider-good::-webkit-slider-thumb { background: url('img/good.png') no-repeat center center / cover; }
+        .slider-excellent::-webkit-slider-thumb { background: url('img/excellent.png') no-repeat center center / cover; }
+
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 25px;
-            height: 25px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: #4CAF50;
+            background: white;
             cursor: pointer;
         }
-        .slider::-moz-range-thumb {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background: #4CAF50;
-            cursor: pointer;
-        }
-        /* Animations */
-        body {
-            transition: background-color 1s ease;
-        }
-        #moodDisplay img {
-            max-width: 100px;
-            transition: opacity 0.5s ease;
+        .flame {
+            position: absolute;
+            background: url('img/flame.png') no-repeat center center / cover;
+            top: -20px; /* Adjust this value as needed for flame image */
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0); /* Initially no flame */
+            transition: transform 0.3s, opacity 0.3s;
+            opacity: 0;
         }
     </style>
 </head>
 <body>
-    <h1>Bigkat's Mood Meter</h1>
-    <input type="range" min="1" max="5" value="3" class="slider" id="moodSlider">
-
-    <div id="moodDisplay">
-        <img src="" alt="Mood Image">
+    <div class="slider-container">
+        <input type="range" min="1" max="5" value="5" class="slider slider-excellent" id="moodSlider">
+        <div class="flame" id="flame"></div>
     </div>
 
     <script>
         const moodStates = [
-            { mood: 'TERRIBLE', color: '#ff6b6b', image: 'terrible.png' },
-            { mood: 'BAD', color: '#ff9f43', image: 'bad.png' },
-            { mood: 'NORMAL', color: '#ffeaa7', image: 'normal.png' },
-            { mood: 'GOOD', color: '#55efc4', image: 'good.png' },
-            { mood: 'EXCELLENT', color: '#2ecc71', image: 'excelent.png' }
+            { mood: 'TERRIBLE', color: '#ff6b6b', className: 'slider-terrible' },
+            { mood: 'BAD', color: '#ff9f43', className: 'slider-bad' },
+            { mood: 'NORMAL', color: '#ffeaa7', className: 'slider-normal' },
+            { mood: 'GOOD', color: '#55efc4', className: 'slider-good' },
+            { mood: 'EXCELLENT', color: '#2ecc71', className: 'slider-excellent' }
         ];
 
-        window.onload = function() {
-            const slider = document.getElementById('moodSlider');
-            const moodDisplay = document.getElementById('moodDisplay');
-            const moodImage = moodDisplay.querySelector('img');
+        const slider = document.getElementById('moodSlider');
+        const flame = document.getElementById('flame');
 
-            // Dummy API response
-            const currentMood = 3; // In a real scenario, this would come from an API call
+        slider.addEventListener('input', function() {
+            const value = parseInt(this.value);
+            const moodIndex = value - 1;
+            const moodState = moodStates[moodIndex];
 
-            // Set the initial state
-            slider.value = currentMood;
-            document.body.style.backgroundColor = moodStates[currentMood - 1].color;
-            moodImage.src = moodStates[currentMood - 1].image;
+            document.body.style.backgroundColor = moodState.color;
+            this.className = 'slider ' + moodState.className;
 
-            slider.oninput = function() {
-                const moodIndex = parseInt(this.value) - 1;
-                document.body.style.backgroundColor = moodStates[moodIndex].color;
-                moodImage.src = moodStates[moodIndex].image;
-            };
-        };
+            // Adjust flame intensity and visibility
+            const flameIntensity = 1 - (value - 1) / (moodStates.length - 1);
+            flame.style.transform = `translate(-50%, -50%) scale(${flameIntensity})`;
+            flame.style.opacity = flameIntensity;
+        });
     </script>
 </body>
 </html>
