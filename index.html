@@ -5,74 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bigkat's Mood Meter</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0e6f6;
-            color: #333;
-            text-align: center;
-            padding: 50px;
+        /* Additional styles for slider */
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 25px;
+            background: white;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
         }
-        #moodForm {
-            margin-top: 20px;
+        .slider:hover {
+            opacity: 1;
         }
-        select, button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 20px;
-            font-size: 16px;
-        }
-        button {
-            background-color: #f9c6ff;
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50;
             cursor: pointer;
-            color: white;
         }
-        button:hover {
-            background-color: #f7a8ff;
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
         }
-        #moodDisplay {
-            margin-top: 20px;
-            font-size: 24px;
+        /* Animations */
+        body {
+            transition: background-color 1s ease;
+        }
+        #moodDisplay img {
+            max-width: 100px;
+            transition: opacity 0.5s ease;
         }
     </style>
 </head>
 <body>
     <h1>Bigkat's Mood Meter</h1>
-    <div id="moodForm">
-        <select id="moodSelector">
-            <option value="happy">Happy</option>
-            <option value="sad">Sad</option>
-            <option value="excited">Excited</option>
-            <option value="angry">Angry</option>
-        </select>
-        <button onclick="displayMood()">Set Mood</button>
+    <input type="range" min="1" max="5" value="3" class="slider" id="moodSlider">
+
+    <div id="moodDisplay">
+        <img src="" alt="Mood Image">
     </div>
-    <div id="moodDisplay"></div>
 
     <script>
-        function displayMood() {
-            const mood = document.getElementById('moodSelector').value;
+        const moodStates = [
+            { mood: 'TERRIBLE', color: '#ff6b6b', image: 'terrible.png' },
+            { mood: 'BAD', color: '#ff9f43', image: 'bad.png' },
+            { mood: 'NORMAL', color: '#ffeaa7', image: 'normal.png' },
+            { mood: 'GOOD', color: '#55efc4', image: 'good.png' },
+            { mood: 'EXCELLENT', color: '#2ecc71', image: 'excelent.png' }
+        ];
+
+        window.onload = function() {
+            const slider = document.getElementById('moodSlider');
             const moodDisplay = document.getElementById('moodDisplay');
-            let message = '';
-            switch (mood) {
-                case 'happy':
-                    message = 'Yay! Bigkat is feeling Happy 😊';
-                    document.body.style.backgroundColor = '#ffde59';
-                    break;
-                case 'sad':
-                    message = 'Aww, Bigkat is feeling Sad 😢';
-                    document.body.style.backgroundColor = '#c9c9f2';
-                    break;
-                case 'excited':
-                    message = 'Woohoo! Bigkat is Excited 🎉';
-                    document.body.style.backgroundColor = '#ffabab';
-                    break;
-                case 'angry':
-                    message = 'Grr! Bigkat is feeling Angry 😠';
-                    document.body.style.backgroundColor = '#ff6b6b';
-                    break;
-            }
-            moodDisplay.innerText = message;
-        }
+            const moodImage = moodDisplay.querySelector('img');
+
+            // Dummy API response
+            const currentMood = 3; // In a real scenario, this would come from an API call
+
+            // Set the initial state
+            slider.value = currentMood;
+            document.body.style.backgroundColor = moodStates[currentMood - 1].color;
+            moodImage.src = moodStates[currentMood - 1].image;
+
+            slider.oninput = function() {
+                const moodIndex = parseInt(this.value) - 1;
+                document.body.style.backgroundColor = moodStates[moodIndex].color;
+                moodImage.src = moodStates[moodIndex].image;
+            };
+        };
     </script>
 </body>
 </html>
