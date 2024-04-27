@@ -5,14 +5,30 @@
     --flame-display: block; /* control visibility */
   }
   
-  body {
-    background-color: #42efb4; /* Updated from #111 to #42efb4 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Jersey+15&display=swap'); /* Import Jersey 15 font */
+
+body {
+  background-color: #42efb4; /* Keep your updated background color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Jersey 15', sans-serif; /* Apply Jersey 15 font to all text */
+  color: white; /* Set text color to white */
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px; /* Spacing between the title and the image */
+}
+
+#moodText {
+  text-align: center;
+  text-transform: uppercase; /* Converts mood text to uppercase */
+  margin-top: 10px; /* Spacing between the image and the mood text */
+}
+
   
   .fire {
     position: relative;
