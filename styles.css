@@ -10,12 +10,12 @@ body {
   height: 100vh;
   margin: 0;
   font-family: Helvetica; /* Apply Jersey 15 font to all text */
-  color: white; /* Set text color to white */
+  color: black; /* Set text color to white */
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 100px; /* Spacing between the title and the image */
+  margin-bottom: 50px; /* Spacing between the title and the image */
   
 }
 
@@ -26,7 +26,7 @@ p {
 #moodText {
   text-align: center;
   text-transform: uppercase; /* Converts mood text to uppercase */
-  margin-top: 10px; /* Spacing between the image and the mood text */
+  margin-top: 0px; /* Spacing between the image and the mood text */
 
 }
 
@@ -37,7 +37,7 @@ p {
   
   #moodImage {
     position: relative;
-    margin-right: 500px;
+    margin-top: 500px;
     z-index: 0; /* Ensures the image is above the flame */
   }
 
