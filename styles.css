@@ -4,8 +4,7 @@
     --flame-intensity: 1; /* scale intensity */
     --flame-display: block; /* control visibility */
   }
-  
-  @import url('https://fonts.googleapis.com/css2?family=Jersey+15&display=swap'); /* Import Jersey 15 font */
+
 
 body {
   background-color: #42efb4; /* Keep your updated background color */
@@ -14,7 +13,7 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  font-family: 'Jersey 15', sans-serif; /* Apply Jersey 15 font to all text */
+  font-family: Arial, Helvetica, sans-serif; /* Apply Jersey 15 font to all text */
   color: white; /* Set text color to white */
 }
 
@@ -29,13 +28,20 @@ h1 {
   margin-top: 10px; /* Spacing between the image and the mood text */
 }
 
+#mood {
+    position: relative; /* Establish a positioning context */
+    display: inline-block; /* Wrap content size around the image and fire */
+  }
   
   .fire {
-    position: relative;
+    position: absolute;
+    top: 0; /* Position at the top of the image */
+    left: 50%; /* Center horizontally relative to the parent */
+    transform: translate(-50%, 0); /* Adjust horizontal centering */
     width: 100px;
     height: 100px;
     display: var(--flame-display);
-    transform: scale(var(--flame-intensity));
+    transform: scale(var(--flame-intensity)) translate(-50%, 0); /* Updated to include horizontal adjustment */
   }
   
   .main-fire {

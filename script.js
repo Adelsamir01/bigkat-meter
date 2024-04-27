@@ -37,4 +37,4 @@
     }
   }
   
-  setMood('Bad'); // Set the initial mood here
+  setMood('Excellent'); // Set the initial mood here
