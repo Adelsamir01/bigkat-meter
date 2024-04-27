@@ -29,7 +29,7 @@
         document.documentElement.style.setProperty('--flame-intensity', '1');
         break;
       case 'Excellent':
-        moodImage.src = 'img/excellent.png';
+        moodImage.src = 'img/excelent.png';
         moodText.textContent = 'EXCELLENT';
         document.documentElement.style.setProperty('--flame-color', '#007bff');
         document.documentElement.style.setProperty('--flame-intensity', '1.5');

@@ -1,9 +1,5 @@
 /* Include all the CSS from the previous response here */
-:root {
-    --flame-color: #ef5a00; /* default */
-    --flame-intensity: 1; /* scale intensity */
-    --flame-display: block; /* control visibility */
-  }
+
 
 
 body {
@@ -13,19 +9,25 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif; /* Apply Jersey 15 font to all text */
+  font-family: Helvetica; /* Apply Jersey 15 font to all text */
   color: white; /* Set text color to white */
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 20px; /* Spacing between the title and the image */
+  margin-bottom: 100px; /* Spacing between the title and the image */
+  
 }
 
+p {
+    font-size: 24px;
+    font-family: Helvetica;
+  }
 #moodText {
   text-align: center;
   text-transform: uppercase; /* Converts mood text to uppercase */
   margin-top: 10px; /* Spacing between the image and the mood text */
+
 }
 
 #mood {
@@ -33,37 +35,178 @@ h1 {
     display: inline-block; /* Wrap content size around the image and fire */
   }
   
+  #moodImage {
+    position: relative;
+    margin-right: 500px;
+    z-index: 0; /* Ensures the image is above the flame */
+  }
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: skewX(0) scale(1);
+    }
+    50% {
+      transform: skewX(5deg) scale(0.9);
+    }
+  }
+  
+  @keyframes particleUp {
+    0% {
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      top: -100%;
+      transform: scale(0.5);
+    }
+  }
+  
+  @keyframes glow {
+    0%,
+    100% {
+      background-color: #ef5a00;
+    }
+    50% {
+      background-color: #ff7800;
+    }
+  }
+  
   .fire {
     position: absolute;
-    top: 0; /* Position at the top of the image */
-    left: 50%; /* Center horizontally relative to the parent */
-    transform: translate(-50%, 0); /* Adjust horizontal centering */
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
     width: 100px;
     height: 100px;
-    display: var(--flame-display);
-    transform: scale(var(--flame-intensity)) translate(-50%, 0); /* Updated to include horizontal adjustment */
+    background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
   }
   
-  .main-fire {
+  .fire-center {
     position: absolute;
-    width: 100%;
     height: 100%;
-    background-image: radial-gradient(farthest-corner at 10px 0, var(--flame-color) 0%, var(--flame-color) 95%);
-    transform: scaleX(0.8) rotate(45deg);
-    border-radius: 0 40% 60% 40%;
-    filter: drop-shadow(0 0 10px var(--flame-color));
-    animation: scaleUpDown 3s ease-out infinite both;
+    width: 100%;
+    animation: scaleUpDown 3s ease-out;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+  
+    .main-fire {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(
+        farthest-corner at 10px 0,
+        #d43300 0%,
+        #ef5a00 95%
+      );
+      transform: scaleX(0.8) rotate(45deg);
+      border-radius: 0 40% 60% 40%;
+      filter: drop-shadow(0 0 10px #d43322);
+    }
+  
+    .particle-fire {
+      position: absolute;
+      top: 60%;
+      left: 45%;
+      width: 10px;
+      height: 10px;
+      background-color: #ef5a00;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 10px #d43322);
+      animation: particleUp 2s ease-out 0;
+      animation-iteration-count: infinite;
+      animation-fill-mode: both;
+    }
   }
   
-  .particle-fire {
+  .fire-right {
+    height: 100%;
+    width: 100%;
     position: absolute;
-    top: 60%;
-    left: 45%;
-    width: 10px;
-    height: 10px;
-    background-color: var(--flame-color);
-    border-radius: 50%;
-    filter: drop-shadow(0 0 10px var(--flame-color));
-    animation: particleUp 2s ease-out 0 infinite both;
+    animation: shake 2s ease-out 0;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+  
+    .main-fire {
+      position: absolute;
+      top: 15%;
+      right: -25%;
+      width: 80%;
+      height: 80%;
+      background-color: #ef5a00;
+      transform: scaleX(0.8) rotate(45deg);
+      border-radius: 0 40% 60% 40%;
+      filter: drop-shadow(0 0 10px #d43322);
+    }
+  
+    .particle-fire {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      width: 15px;
+      height: 15px;
+      background-color: #ef5a00;
+      transform: scaleX(0.8) rotate(45deg);
+      border-radius: 50%;
+      filter: drop-shadow(0 0 10px #d43322);
+      animation: particleUp 2s ease-out 0;
+      animation-iteration-count: infinite;
+      animation-fill-mode: both;
+    }
   }
   
+  .fire-left {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    animation: shake 3s ease-out 0;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+  
+    .main-fire {
+      position: absolute;
+      top: 15%;
+      left: -20%;
+      width: 80%;
+      height: 80%;
+      background-color: #ef5a00;
+      transform: scaleX(0.8) rotate(45deg);
+      border-radius: 0 40% 60% 40%;
+      filter: drop-shadow(0 0 10px #d43322);
+    }
+  
+    .particle-fire {
+      position: absolute;
+      top: 10%;
+      left: 20%;
+      width: 10%;
+      height: 10%;
+      background-color: #ef5a00;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 10px #d43322);
+      animation: particleUp 3s infinite ease-out 0;
+      animation-fill-mode: both;
+    }
+  }
+  
+  .fire-bottom .main-fire {
+    position: absolute;
+    top: 30%;
+    left: 20%;
+    width: 75%;
+    height: 75%;
+    background-color: #ff7800;
+    transform: scaleX(0.8) rotate(45deg);
+    border-radius: 0 40% 100% 40%;
+    filter: blur(10px);
+    animation: glow 2s ease-out 0;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+  }
