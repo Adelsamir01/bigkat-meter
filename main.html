@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bigkat's Mood Meter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0e6f6;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        #moodForm {
+            margin-top: 20px;
+        }
+        select, button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #f9c6ff;
+            cursor: pointer;
+            color: white;
+        }
+        button:hover {
+            background-color: #f7a8ff;
+        }
+        #moodDisplay {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bigkat's Mood Meter</h1>
+    <div id="moodForm">
+        <select id="moodSelector">
+            <option value="happy">Happy</option>
+            <option value="sad">Sad</option>
+            <option value="excited">Excited</option>
+            <option value="angry">Angry</option>
+        </select>
+        <button onclick="displayMood()">Set Mood</button>
+    </div>
+    <div id="moodDisplay"></div>
+
+    <script>
+        function displayMood() {
+            const mood = document.getElementById('moodSelector').value;
+            const moodDisplay = document.getElementById('moodDisplay');
+            let message = '';
+            switch (mood) {
+                case 'happy':
+                    message = 'Yay! Bigkat is feeling Happy 😊';
+                    document.body.style.backgroundColor = '#ffde59';
+                    break;
+                case 'sad':
+                    message = 'Aww, Bigkat is feeling Sad 😢';
+                    document.body.style.backgroundColor = '#c9c9f2';
+                    break;
+                case 'excited':
+                    message = 'Woohoo! Bigkat is Excited 🎉';
+                    document.body.style.backgroundColor = '#ffabab';
+                    break;
+                case 'angry':
+                    message = 'Grr! Bigkat is feeling Angry 😠';
+                    document.body.style.backgroundColor = '#ff6b6b';
+                    break;
+            }
+            moodDisplay.innerText = message;
+        }
+    </script>
+</body>
+</html>
