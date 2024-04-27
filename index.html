@@ -3,152 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bigkat's Mood Meter with Flame Effect</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: background-color 1s ease;
-        }
-        .slider-container {
-            position: relative;
-            width: 300px;
-            z-index: 1;
-        }
-        .slider {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 10px;
-            background: #eaeaea;
-            outline: none;
-            border-radius: 5px;
-            transition: background .2s;
-            margin-bottom: 50px; /* Spacing for the mood image */
-        }
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: white;
-            cursor: pointer;
-        }
-        /* Slider thumb styles for different moods */
-        .slider-terrible::-webkit-slider-thumb { background: url('img/terrible.png') no-repeat center center / cover; }
-        .slider-bad::-webkit-slider-thumb { background: url('img/bad.png') no-repeat center center / cover; }
-        .slider-normal::-webkit-slider-thumb { background: url('img/normal.png') no-repeat center center / cover; }
-        .slider-good::-webkit-slider-thumb { background: url('img/good.png') no-repeat center center / cover; }
-        .slider-excellent::-webkit-slider-thumb { background: url('img/excellent.png') no-repeat center center / cover; }
-
-        .mood-image {
-            position: absolute;
-            top: 70px; /* Adjust as necessary to position the mood image below the slider */
-            width: 50px; /* Match the slider thumb size */
-            height: 50px;
-            border-radius: 50%;
-            background: white;
-            z-index: -1;
-        }
-
-        /* Styles for flame effect canvas */
-        canvas {
-            position: absolute;
-            top: 100px; /* Adjust as necessary to position below the slider and mood image */
-            pointer-events: none;
-            opacity: 0; /* Start with no flame */
-            transition: opacity 1s;
-            width: 335px; /* Match your canvas size */
-            height: 335px;
-        }
-    </style>
+    <title>Mood Meter</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="slider-container">
-        <input type="range" min="1" max="5" value="5" class="slider slider-excellent" id="moodSlider">
-        <div class="mood-image" id="moodImage"></div>
-        <canvas width="335" height="335" id="canvas"></canvas>
+    <div id="mood">
+      <img src="normal.jpg" alt="Mood Image" id="moodImage">
+      <div class="fire">
+        <div class="main-fire"></div>
+        <div class="particle-fire"></div>
+      </div>
     </div>
-    <!-- Your shader script and setup for WebGL here -->
-    <script>
-        let gl = canvas.getContext('webgl');
-        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,3,-1,-1,3,-1]), gl.STATIC_DRAW);
-        
-        let pid = gl.createProgram();
-        shader(`attribute vec2 v;void main(void){gl_Position=vec4(v,0.,1.);}`, gl.VERTEX_SHADER);
-        shader(document.querySelector(`script[type="glsl"]`).textContent, gl.FRAGMENT_SHADER);
-        gl.linkProgram(pid);
-        gl.useProgram(pid);
-        
-        let v = gl.getAttribLocation(pid, "v");
-        gl.vertexAttribPointer(v, 2, gl.FLOAT, false, 0, 0);
-        gl.enableVertexAttribArray(v);
-        
-        let resolution = gl.getUniformLocation(pid, 'resolution');
-        let time = gl.getUniformLocation(pid, 'time');
-        let fill = gl.getUniformLocation(pid, 'fill');
-        let canvasStyle = window.getComputedStyle(canvas);
-        requestAnimationFrame(draw);
-        
-        function draw(t) {
-          gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-          gl.clearColor(0, 0, 0, 0);
-          gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-          gl.uniform1f(time, t * 0.001);
-          gl.uniform1f(fill, parseFloat(canvasStyle.opacity));
-          gl.uniform2f(resolution, canvas.width, canvas.height);
-          gl.drawArrays(gl.TRIANGLES, 0, 3);
-          requestAnimationFrame(draw);
-        }
-        
-        function shader(src, type) {
-          let sid = gl.createShader(type);
-          gl.shaderSource(sid, src);
-          gl.compileShader(sid);
-          let message = gl.getShaderInfoLog(sid);
-          gl.attachShader(pid, sid);
-          if (message.length > 0) {
-            console.error(src.split("\n").map((s, i) => (i + 1) + ": " + s).join("\n"));
-            throw message;
-          }
-        }
-        
-        // Update the flame effect based on the mood
-        const slider = document.getElementById('moodSlider');
-        const moodImage = document.getElementById('moodImage');
-        const flameEffectIntensity = {
-          'TERRIBLE': 1.0,
-          'BAD': 0.5,
-          'NORMAL': 0.0,
-          'GOOD': -0.5, // Negative for blue flame
-          'EXCELLENT': -1.0 // More intense blue flame
-        };
-        
-        slider.addEventListener('input', function() {
-          const value = parseInt(this.value);
-          const moodState = moodStates[value - 1];
-        
-          moodImage.className = moodState.className;
-          moodImage.style.backgroundImage = `url('img/${moodState.className}.png')`;
-        
-          // Adjust the fill uniform for the flame's intensity and color
-          let fillValue = flameEffectIntensity[moodState.mood];
-          if (fillValue >= 0) {
-            // Regular flame
-            canvas.style.opacity = fillValue.toString();
-            canvas.style.filter = ''; // Reset any blue color for the flame
-          } else {
-            // Blue flame for good and excellent moods
-            canvas.style.opacity = (-fillValue).toString();
-            canvas.style.filter = 'hue-rotate(180deg)'; // Adjust hue for blue flame
-          }
-        });
-        </script>
-    <!-- Ensure the script handles the fill and color based on the mood -->
+    <script src="script.js"></script>
 </body>
 </html>
